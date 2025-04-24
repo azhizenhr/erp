@@ -178,51 +178,50 @@ export const getLeaves = async (req, res) => {
 
 export const getLeaveDetail = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        // Fetch leave with populated employee, department, and user details
-        const leave = await Leave.findById(id).populate({
-            path: "employeeId",
-            populate: [
-                {
-                    path: "department",
-                    select: "dep_name"
-                },
-                {
-                    path: "userId",
-                    select: "name profileImage"
-                }
-            ]
-        });
-
-        if (!leave) {
-            return res.status(404).json({ success: false, error: "Leave not found" });
-        }
-
-        // Get leave balance for the current month
-        const currentDate = new Date();
-        const month = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
-        const leaveBalance = leave.employeeId?.leaveBalances.find(balance => balance.month === month)?.balance || 0;
-
-        // Create enhanced employee object with leaveBalance
-        const enhancedEmployee = leave.employeeId
-            ? {
-                  ...leave.employeeId.toObject(),
-                  leaveBalance
-              }
-            : null;
-
-        // Create enhanced leave object
-        const enhancedLeave = {
-            ...leave.toObject(),
-            employeeId: enhancedEmployee
-        };
-
-        console.log("Fetched leave detail with balance");
-        return res.status(200).json({ success: true, leave: enhancedLeave });
+      const { id } = req.params;
+  
+      // Fetch leave with populated employee, department, and user details
+      const leave = await Leave.findById(id).populate({
+        path: "employeeId",
+        populate: [
+          {
+            path: "department",
+            select: "dep_name",
+          },
+          {
+            path: "userId",
+            select: "name profileImage",
+          },
+        ],
+      });
+  
+      if (!leave) {
+        return res.status(404).json({ success: false, error: "Leave not found" });
+      }
+  
+      // Get leave balance for the current month
+      const currentDate = new Date();
+      const month = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
+      const leaveBalance = leave.employeeId?.leaveBalances.find(balance => balance.month === month)?.balance || 0;
+  
+      // Create enhanced employee object with leaveBalance
+      const enhancedEmployee = leave.employeeId
+        ? {
+            ...leave.employeeId.toObject(),
+            leaveBalance,
+          }
+        : null;
+  
+      // Create enhanced leave object
+      const enhancedLeave = {
+        ...leave.toObject(),
+        employeeId: enhancedEmployee,
+      };
+  
+      console.log("Fetched leave detail with balance");
+      return res.status(200).json({ success: true, leave: enhancedLeave });
     } catch (error) {
-        console.log("error in getLeaveDetail");
-        console.log(error.message);
-        return res.status(500).json({ success: false, error: "leave detail server error" });
+      console.error("Error in getLeaveDetail:", error.message);
+      return res.status(500).json({ success: false, error: "Server error" });
     }
-};
+  };
