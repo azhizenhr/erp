@@ -1,0 +1,30 @@
+{
+	"name": "netflix-clone",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server/index.js",
+	"scripts": {
+		"dev": "nodemon server/index.js",
+		"build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+		"start": "NODE_ENV=production node server/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"type": "module",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"cloudinary": "^1.41.3",
+		"cors": "^2.8.5",
+		"dotenv": "^16.5.0",
+		"express": "^4.21.2",
+		"jsonwebtoken": "^9.0.2",
+		"mongoose": "^8.12.2",
+		"multer": "^1.4.5-lts.2",
+		"multer-storage-cloudinary": "^4.0.0",
+		"path": "^0.12.7"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.4"
+	}
+}
