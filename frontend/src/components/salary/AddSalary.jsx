@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
     const [salary, setSalary] = useState({
-        employeeId: null,
+        employeeName:null,
         basicSalary: 0,
         allowances: 0,
         deductions: 0,
@@ -49,6 +49,8 @@ const Add = () => {
 
     const handleDepartment = async (e) => {
         const emp = await getEmployees(e.target.value);
+        console.log(emp);
+        
         setEmployees(emp);
     };
 
@@ -94,7 +96,7 @@ const Add = () => {
                                         <option value="">Select Employee</option>
                                         {employees.map(emp => (
                                             <option key={emp._id} value={emp._id}>
-                                                {emp.employeeId}
+                                                {emp.userId.name}
                                             </option>
                                         ))}
                                     </select>
