@@ -57,7 +57,7 @@ const AddLeave = () => {
               <option value="">Select Leave Type</option>
               <option value="SickLeave">Sick Leave</option>
               <option value="CasualLeave">Casual Leave</option>
-              <option value="InternExamLeave">Intern Exam Leave Leave</option>
+              <option value="InternExamLeave">Intern Exam Leave</option>
             </select>
           </div>
 
