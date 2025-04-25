@@ -28,8 +28,8 @@ const SummaryCard = () => {
   }, [user]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 mt-6">
-      <div className="rounded-lg bg-white shadow-md w-full max-w-md mx-auto lg:max-w-full">
+    <div className="p-4 sm:p-6 lg:p-8 mt-6 bg-transparent">
+      <div className="rounded-lg shadow-md w-full max-w-md mx-auto lg:max-w-full">
         {/* Welcome Back Section */}
         <div className="flex border-b border-gray-200">
           <div
@@ -47,7 +47,7 @@ const SummaryCard = () => {
            
           </div>
         </div>
-        <div className="flex">
+        <div className="flex mt-6">
           <div
             className="text-2xl sm:text-3xl lg:text-4xl flex justify-center items-center bg-[#00B4D9] text-white px-3 sm:px-4 lg:px-5 py-2"
           >

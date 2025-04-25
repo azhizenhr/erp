@@ -45,16 +45,8 @@ const Login = () => {
                <label htmlFor="password" className='block text-gray-700'>Password</label>
                <input type="password" placeholder='Password' className='w-full px-3 py-2 border' value={password} onChange={(e)=>setPassword(e.target.value)} />
            </div>
-           <div className='mb-4 flex items-center justify-between'>
-                <label htmlFor="" className='inline-flex items-center'>
-                    <input type="checkbox" className='form-checkbox' />
-                    <span className='ml-2 text-gray-700'>Remember Me</span>
-                </label>
-                <a href="#" className='text-teal-600'>
-                    Forgot Password?
-                </a>
-           </div>
-           <div className='mt-4'>
+           
+           <div className='mt-8'>
            <button type="submit" className='w-full bg-[#00B4D9] text-white py-2'>Login</button>
            </div>
           
