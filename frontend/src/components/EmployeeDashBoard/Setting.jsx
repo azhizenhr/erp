@@ -39,7 +39,12 @@ const Setting = () => {
         );
 
         if (response.data.success) {
-          navigate("/admin-dashboard/employees");
+          if(user.role==="admin"){
+            navigate("/admin-dashboard/employees");
+          }else{
+            navigate("/employee-dashboard/")
+          }
+         
           setError("");
         }
       } catch (error) {
