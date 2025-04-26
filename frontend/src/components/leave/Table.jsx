@@ -16,11 +16,11 @@ const Table = () => {
           "Authorization" : `Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(response);
-      console.log(response.data.success);
+      // console.log(response);
+      // console.log(response.data.success);
       
       if(response.data.success){
-        console.log("here");
+        // console.log("here");
         
         let sno = 1;
         const data =  response.data.leaves.map((leave) => (
@@ -40,7 +40,7 @@ const Table = () => {
          
           
         ));
-        console.log(data);
+        // console.log(data);
         setLeaves(data);
         setfilteredLeaves(data)
       }

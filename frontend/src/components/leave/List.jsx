@@ -16,7 +16,7 @@ const List = () => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
-            console.log(response.data);
+            // console.log(response.data);
 
             if (response.data.success) {
                 setLeaves(response.data.leaves);
