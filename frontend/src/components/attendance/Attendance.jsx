@@ -24,8 +24,8 @@ const Attendance = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      console.log('Success:', response.data.success);
-      console.log('Attendance data:', response.data.attendance);
+      // console.log('Success:', response.data.success);
+      // console.log('Attendance data:', response.data.attendance);
 
       if (response.data.success) {
         let sno = 1;
@@ -44,7 +44,7 @@ const Attendance = () => {
               />
             ),
           }));
-        console.log('Transformed data:', data);
+        // console.log('Transformed data:', data);
         setAttendance(data);
         setFilteredAttendance(data);
       }
@@ -113,7 +113,7 @@ const Attendance = () => {
                 </span>
               </p>
               <Link
-                to="admin-dashboard/attendance-report"
+                to="/admin-dashboard/attendance-report"
                 className="px-2 py-0.5 sm:px-4 sm:py-1 bg-[#00B4D9] rounded text-white text-sm sm:text-base"
                 aria-label="View attendance report"
               >
