@@ -84,7 +84,7 @@ export const AttendanceHelper = ({ status, employeeId, statusChange }) => {
         </div>
       ) : (
         <p
-          className="bg-gray-100 w-20 text-center py-2 rounded text-sm"
+          className="bg-gray-100 w-30 text-center py-2 rounded text-sm"
           aria-label={`Attendance status: ${status}`}
         >
           {status}
