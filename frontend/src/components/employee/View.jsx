@@ -78,7 +78,7 @@ const View = () => {
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.gender}</p>
                             </div>
                             <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Department:</p>
+                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Team:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.department.dep_name}</p>
                             </div>
                             <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">

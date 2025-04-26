@@ -20,8 +20,13 @@ export const columns = [
     width: '100px',
   },
   {
-    name: 'Department',
+    name: 'Team',
     selector: (row) => row.department,
+    width: '120px',
+  },
+  {
+    name: 'Designation',
+    selector: (row) => row.designation,
     width: '120px',
   },
   {

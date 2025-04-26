@@ -62,7 +62,7 @@ const EditDepartment = () => {
           <div className="flex justify-center items-center h-screen">Loading ...</div>
         ) : (
           <div className="max-w-3xl mx-auto mt-10 sm:mt-16 bg-white p-4 sm:p-6 md:p-8 rounded-md shadow-md w-full sm:w-96">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Edit Department</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Edit Team</h2>
             <form onSubmit={handleSubmit}>
               <div>
                 <label
@@ -75,8 +75,8 @@ const EditDepartment = () => {
                   type="text"
                   name="dep_name"
                   onChange={handleChange}
-                  value={department.dep_name || ''} // Added fallback for initial render
-                  placeholder='Department Name'
+                  value={department.dep_name || ''} 
+                  placeholder='Team Name'
                   className="mt-1 w-full p-1 sm:p-2 border border-gray-300 rounded-md text-sm sm:text-base"
                   required
                 />
@@ -92,7 +92,7 @@ const EditDepartment = () => {
                   name="description"
                   placeholder='Description'
                   onChange={handleChange}
-                  value={department.description || ''} // Added fallback for initial render
+                  value={department.description || ''} 
                   className="mt-1 p-1 sm:p-2 block w-full border border-gray-300 rounded-md text-sm sm:text-base"
                   rows="4"
                 />
@@ -101,7 +101,7 @@ const EditDepartment = () => {
                 type="submit"
                 className="w-full mt-4 sm:mt-6 bg-[#00B4D9] hover:bg-[#00B4D9] text-white font-bold py-1 sm:py-2 px-2 sm:px-4 rounded text-sm sm:text-base"
               >
-                Edit Department
+                Edit Team
               </button>
             </form>
           </div>

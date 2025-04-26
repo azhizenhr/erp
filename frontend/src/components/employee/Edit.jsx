@@ -134,7 +134,7 @@ const Edit = () => {
                     />
                   </div>
                   <div className='col-span-1 md:col-span-2'>
-                    <label className='block text-xs sm:text-sm font-medium text-gray-700'>Department</label>
+                    <label className='block text-xs sm:text-sm font-medium text-gray-700'>Team</label>
                     <select
                       name="department"
                       value={employee.department}
@@ -142,7 +142,7 @@ const Edit = () => {
                       required
                       onChange={handleChange}
                     >
-                      <option value="">Select Department</option>
+                      <option value="">Select Team</option>
                       {departments.map(dep => (
                         <option key={dep._id} value={dep._id}>{dep.dep_name}</option>
                       ))}

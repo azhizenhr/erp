@@ -225,3 +225,14 @@ export const getLeaveDetail = async (req, res) => {
       return res.status(500).json({ success: false, error: "Server error" });
     }
   };
+
+  export const leaveBalance=async (req, res) => {
+    try {
+      const userId = req.user._id; // Assuming middleware sets req.user
+      const employee = await Employee.findOne({ userId });
+      const balance = employee.leaveBalance || 0; // Adjust based on your model
+      res.json({ success: true, balance });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Server error' });
+    }
+  }

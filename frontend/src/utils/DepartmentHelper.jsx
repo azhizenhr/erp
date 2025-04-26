@@ -8,7 +8,7 @@ export const columns = [
         width: "250px", 
     },
     {
-        name: "Department Name",
+        name: "Team Name",
         selector: (row) => row.dep_name,
         sortable: true,
         width: "250px",

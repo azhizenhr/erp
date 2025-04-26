@@ -51,7 +51,7 @@ const AdminSidebar = () => {
           }
         >
           <FaBuilding />
-          <span>Department</span>
+          <span>Team</span>
         </NavLink>
         <NavLink
           to="/admin-dashboard/leaves"

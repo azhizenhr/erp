@@ -1,40 +1,84 @@
-import React,{useState} from "react";
-import { useAuth } from "../../context/authContext";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/authContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AddLeave = () => {
-    const {user} = useAuth()
-    const [leave, setLeave] = useState({
-        userId:user._id,
-    })
+  const { user } = useAuth();
+  const [leave, setLeave] = useState({
+    userId: user._id,
+  });
+  const [leaveBalance, setLeaveBalance] = useState(null);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
+  // Fetch leave balance on mount
+  useEffect(() => {
+    const fetchLeaveBalance = async () => {
+      try {
+        const response = await axios.get('/api/leave/balance', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.data.success) {
+          setLeaveBalance(response.data.balance);
+        }
+      } catch (error) {
+        console.error('Error fetching leave balance:', error);
+        alert('Failed to fetch leave balance. Please try again.');
+      }
+    };
+    fetchLeaveBalance();
+  }, []);
 
   const handleChange = (e) => {
-    const {name,value} = e.target 
-    setLeave((prevState) => ({...prevState, [name] : value}))
+    const { name, value } = e.target;
+    setLeave((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate dates
+    const startDate = new Date(leave.startDate);
+    const endDate = new Date(leave.endDate);
+    if (isNaN(startDate) || isNaN(endDate)) {
+      alert('Please select valid dates.');
+      return;
+    }
+    if (endDate < startDate) {
+      alert('End date cannot be before start date.');
+      return;
+    }
+
+    // Check leave balance
+    if (leaveBalance === 0) {
+      const userConfirmed = window.confirm(
+        'Your leave balance is 0. Do you still want to apply for this leave?'
+      );
+      if (!userConfirmed) {
+        return; 
+      }
+    }
+
     try {
-        const response = await axios.post(`/api/leave/add`,leave,
-            {
-          headers : {
-            "Authorization" : `Bearer ${localStorage.getItem('token')}`
-          },
-        });
-        
-        if(response.data.success){
-            navigate(`/employee-dashboard/leaves/${user._id}`)
-        }
-      }catch(error){
-        if(error.response && error.response.data.success){
-            alert(error.response.data.error)
+      const response = await axios.post('/api/leave/add', leave, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.data.success) {
+        navigate(`/employee-dashboard/leaves/${user._id}`);
       }
+    } catch (error) {
+      if (error.response && error.response.data.success) {
+        alert(error.response.data.error);
+      } else {
+        alert('An error occurred while submitting the leave request.');
       }
-  }
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">

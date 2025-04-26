@@ -18,7 +18,7 @@ const Navbar = () => {
      
         <div className='flex items-center w-1/3 space-x-2'>
           <img 
-            src="./azhizen.png" 
+            src="./azhizen.jpeg" 
             alt="Profile"
             className='w-1/3 h-10  object-cover'
           />

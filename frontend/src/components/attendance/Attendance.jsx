@@ -36,6 +36,7 @@ const Attendance = () => {
             sno: sno++,
             department: att.employeeId.department?.dep_name || 'N/A',
             name: att.employeeId.userId?.name || 'N/A',
+            designation:att.employeeId.designation,
             action: (
               <AttendanceHelper
                 status={att.status}

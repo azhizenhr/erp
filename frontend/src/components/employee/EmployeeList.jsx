@@ -28,7 +28,7 @@ const EmployeeList = () => {
                     sno: sno++,
                     dep_name: emp.department.dep_name,
                     name: emp.userId.name,
-                    dob: new Date(emp.dob).toLocaleDateString(),
+                    designation: emp.designation,
                     profileImage: emp.userId.profileImage ? (
                         <img
                             className="rounded-full w-8 h-8 sm:w-10 sm:h-10 object-cover"

@@ -66,7 +66,7 @@ const Add = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Department
+                                        Team
                                     </label>
                                     <select
                                         name="department"
@@ -74,7 +74,7 @@ const Add = () => {
                                         required
                                         onChange={handleDepartment}
                                     >
-                                        <option value="">Select Department</option>
+                                        <option value="">Select Team</option>
                                         {departments.map(dep => (
                                             <option key={dep._id} value={dep._id}>
                                                 {dep.dep_name}

@@ -24,13 +24,13 @@ export const columns = [
         ),
     },
     {
-        name: "Department",
+        name: "Team",
         selector: (row) => row.dep_name,
         width: "130px",
     },
     {
-        name: "DOB",
-        selector: (row) => row.dob,
+        name: "Designation",
+        selector: (row) => row.designation,
         width: "130px",
         sortable: true,
     },
@@ -104,7 +104,7 @@ export const EmployeeButtons = ({ id, onDelete }) => {
                 Salary
             </button>
             <button
-                className="px-2 py-1 sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
+                className="px-2 py-1 sm:px-4 sm:py-2 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-base rounded-md transition-colors whitespace-nowrap"
                 onClick={() => navigate(`/admin-dashboard/employees/leaves/${id}`)}
             >
                 Leave

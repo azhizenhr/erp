@@ -62,7 +62,7 @@ const DepartmentList = () => {
             ) : (
                 <div className='min-h-screen w-full flex flex-col p-2 sm:p-4 pt-16 sm:pt-20 overflow-x-hidden'>
                     <div className='text-center mb-3 sm:mb-4'>
-                        <h3 className='text-xl sm:text-2xl md:text-2xl font-bold'>Manage Departments</h3>
+                        <h3 className='text-xl sm:text-2xl md:text-2xl font-bold'>Manage Teams</h3>
                     </div>
                     {success && (
                         <div className="mb-3 sm:mb-4 p-2 bg-green-100 text-green-700 rounded-md text-sm sm:text-base text-center">
@@ -80,7 +80,7 @@ const DepartmentList = () => {
                             to="/admin-dashboard/add-department" 
                             className="w-full sm:w-auto px-2 sm:px-3 md:px-4 py-1 bg-[#00B4D9] rounded text-white text-center text-sm sm:text-base hover:bg-[#0096b5] whitespace-nowrap"
                         >
-                            Add New Department
+                            Add New Team
                         </Link>
                     </div>
                     <div className='flex-grow w-full overflow-y-auto max-h-[calc(100vh-200px)]'>

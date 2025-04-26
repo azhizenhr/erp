@@ -22,13 +22,18 @@ export const columns = [
     width: "140px",
   },
   {
-    name: "Department",
+    name: "Teams",
     selector: (row) => row.department,
     width: "170px",
   },
   {
     name: "Status",
     selector: (row) => row.status,
+    width: "120px",
+  },
+  {
+    name: "Extra Leave",
+    selector: (row) => row.days,
     width: "120px",
   },
   {
