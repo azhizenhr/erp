@@ -27,11 +27,6 @@ export const columns = [
     width: "170px",
   },
   {
-    name: "Days",
-    selector: (row) => row.days,
-    width: "80px",
-  },
-  {
     name: "Status",
     selector: (row) => row.status,
     width: "120px",
