@@ -42,5 +42,7 @@ export const login = async (req, res) => {
  };
  
 export const verify=async(req,res,next)=>{
+  console.log(req.user);
+  
    return res.status(200).json({success:true,user:req.user}) 
 }

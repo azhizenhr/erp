@@ -13,9 +13,11 @@ const getAttendance=async(req,res)=>{
                 "userId"
             ]
         });
-        res.status(200).json({success: true, attendance})
+        console.log(attendance);
+        
+        return res.status(200).json({success: true, attendance})
     } catch(error){
-        res.status(500).json({success: false, error: "get attendance server error"})
+        return res.status(500).json({success: false, error: "get attendance server error"})
     }
 }
 
@@ -82,6 +84,8 @@ const getAttendanceReport = async (req, res) => {
                 departmentName: record.employeeId.department.dep_name,
                 status: record.status || "Not Marked"
             });
+            console.log(result);
+            
             return result; // Return the accumulator for reduce
         }, {}); 
         return res.status(201).json({ success: true, groupData });

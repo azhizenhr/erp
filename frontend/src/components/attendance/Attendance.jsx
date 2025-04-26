@@ -24,26 +24,32 @@ const Attendance = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+      console.log('Success:', response.data.success);
+      console.log('Attendance data:', response.data.attendance);
 
       if (response.data.success) {
         let sno = 1;
-        const data = response.data.attendance.map((att) => ({
-          employeeId: att.employeeId.employeeId,
-          sno: sno++,
-          department: att.employeeId.department.dep_name,
-          name: att.employeeId.userId.name,
-          action: (
-            <AttendanceHelper
-              status={att.status}
-              employeeId={att.employeeId.employeeId}
-              statusChange={statusChange}
-            />
-          ),
-        }));
+        const data = response.data.attendance
+          .filter((att) => att.employeeId !== null)
+          .map((att) => ({
+            employeeId: att.employeeId.employeeId || 'N/A',
+            sno: sno++,
+            department: att.employeeId.department?.dep_name || 'N/A',
+            name: att.employeeId.userId?.name || 'N/A',
+            action: (
+              <AttendanceHelper
+                status={att.status}
+                employeeId={att.employeeId.employeeId}
+                statusChange={statusChange}
+              />
+            ),
+          }));
+        console.log('Transformed data:', data);
         setAttendance(data);
         setFilteredAttendance(data);
       }
     } catch (error) {
+      console.error('Error fetching attendance:', error);
       if (error.response && !error.response.data.success) {
         alert(error.response.data.message || 'Error fetching attendance');
       }
@@ -60,9 +66,9 @@ const Attendance = () => {
     const searchTerm = e.target.value.toLowerCase();
     setSearch(searchTerm);
     const records = attendance.filter((emp) =>
-      emp.employeeId.toLowerCase().includes(searchTerm) ||
-      emp.department.toLowerCase().includes(searchTerm) ||
-      emp.name.toLowerCase().includes(searchTerm)
+      (emp.employeeId || '').toLowerCase().includes(searchTerm) ||
+      (emp.department || '').toLowerCase().includes(searchTerm) ||
+      (emp.name || '').toLowerCase().includes(searchTerm)
     );
     setFilteredAttendance(records);
   };
