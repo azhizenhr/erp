@@ -168,14 +168,14 @@ const AddEmployee = () => {
                        />
                    </div>
                    <div>
-                       <label className="block text-xs sm:text-sm font-medium text-gray-700">Department</label>
+                       <label className="block text-xs sm:text-sm font-medium text-gray-700">Team</label>
                        <select
                            name="department"
                            className="mt-1 p-1 sm:p-2 block w-full border border-gray-300 rounded-md text-sm sm:text-base"
                            required
                            onChange={handleChange}
                        >
-                           <option value="">Select Department</option>
+                           <option value="">Select Team</option>
                            {departments.map((dep) => (
                                <option key={dep._id} value={dep._id}>
                                    {dep.dep_name}
