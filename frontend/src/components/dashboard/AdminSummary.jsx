@@ -66,7 +66,7 @@ const AdminSummary = () => {
           <SummaryCard
             icon={<FaFileAlt />}
             text="Leave Applied"
-            number={summary.leavesummary.appliedFor?summary.leavesummary.appliedFor:0}
+            number={summary.leavesummary.approved+summary.leavesummary.pending+summary.leavesummary.rejected} 
             color="bg-teal-600"
           />
           <SummaryCard

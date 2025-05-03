@@ -154,12 +154,12 @@ export const getLeaveSummary = async (req, res) => {
         // Count pending leave requests for the employee
         const pendingLeavesCount = await Leave.countDocuments({
             employeeId: employee._id,
-            status: "Pending"
+            status: "Approved"
         });
 
         res.status(200).json({
             totalLeaveBalance:totalLeaveBalance,
-           
+           pendingLeavesCount: pendingLeavesCount,
             month: currentMonth
         });
     } catch (error) {

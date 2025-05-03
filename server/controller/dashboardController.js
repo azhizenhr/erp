@@ -6,17 +6,15 @@ import Leave from '../models/Leave.js';
 
 export const getSummary = async (req, res) => {
     try {
-        // Total number of employees (all roles)
         const totalEmployees = await Employee.countDocuments();
 
-        // Total number of interns
         const interns = await Employee.findInterns();
         const totalInterns = interns.length;
-        console.log('Interns found:', interns.map(intern => ({
-            employeeId: intern._id,
-            userId: intern.userId,
-            designation: intern.designation
-        })));
+        // console.log('Interns found:', interns.map(intern => ({
+        //     employeeId: intern._id,
+        //     userId: intern.userId,
+        //     designation: intern.designation
+        // })));
 
         // Total number of departments
         const totalDepartments = await Department.countDocuments();

@@ -44,9 +44,9 @@ const SummaryCard = () => {
             <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">
               {user.name}
             </p>
-           
           </div>
         </div>
+        {/* Leave Status Section */}
         <div className="flex mt-6">
           <div
             className="text-2xl sm:text-3xl lg:text-4xl flex justify-center items-center bg-[#00B4D9] text-white px-3 sm:px-4 lg:px-5 py-2"
@@ -60,12 +60,13 @@ const SummaryCard = () => {
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mt-1 truncate">
               {loading ? (
                 'Loading leave balance...'
-              ) : leaveBalance !== null ? (
-                `Total Leave Days Remaining: ${leaveBalance}`
+              ) : pendingLeavesCount !== null ? (
+                `Leave Days Remaining: ${pendingLeavesCount} / 5`
               ) : (
                 'Unable to fetch leave balance'
               )}
             </p>
+            
           </div>
         </div>
       </div>
