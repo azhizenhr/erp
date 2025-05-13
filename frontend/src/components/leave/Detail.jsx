@@ -179,7 +179,7 @@ const Detail = () => {
                         {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
                       </td>
                       <td className="px-4 py-2 text-sm sm:text-base text-gray-900 border-b">
-                        {leave.employeeId.leaveBalance}{' '}
+                        {leave.employeeId.leaveBalance+1}{' '}
                         {leave.employeeId.leaveBalance === 1 ? 'day' : 'days'}
                       </td>
                     </tr>

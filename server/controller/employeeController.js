@@ -145,29 +145,38 @@ export const getLeaveSummary = async (req, res) => {
             .lean();
 
         if (!employee) {
-            return res.status(404).json({ message: 'Employee not found' });
+            return res.status(404).json({ success: false, message: 'Employee not found' });
         }
 
         // Find the leave balance for the current month
         const totalLeaveBalance = employee.leaveBalances.find(balance => balance.month === currentMonth)?.balance || 0;
 
-        // Count pending leave requests for the employee
-        const pendingLeavesCount = await Leave.countDocuments({
+        // Fetch approved leaves for debugging
+        const approvedLeaves = await Leave.find({
             employeeId: employee._id,
             status: "Approved"
-        });
+        }).lean();
+        // console.log(`Approved leaves for employee ${employee._id}:`, approvedLeaves.map(l => ({
+        //     id: l._id,
+        //     startDate: l.startDate,
+        //     endDate: l.endDate,
+        //     days: (new Date(l.endDate).setHours(0,0,0,0) - new Date(l.startDate).setHours(0,0,0,0)) <= (1000 * 60 * 60 * 24) ? 1 : Math.ceil((new Date(l.endDate) - new Date(l.startDate)) / (1000 * 60 * 60 * 24))
+        // })));
 
-        res.status(200).json({
-            totalLeaveBalance:totalLeaveBalance,
-           pendingLeavesCount: pendingLeavesCount,
+        // Count approved leave requests for the employee
+        const approvedLeavesCount = approvedLeaves.length;
+
+       return  res.status(200).json({
+            success: true,
+            totalLeaveBalance: totalLeaveBalance,
+            approvedLeavesCount: approvedLeavesCount,
             month: currentMonth
         });
     } catch (error) {
         console.error('Error fetching leave summary:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
 export const deleteEmployee = async (req, res) => {
     try {
         const { id } = req.params;

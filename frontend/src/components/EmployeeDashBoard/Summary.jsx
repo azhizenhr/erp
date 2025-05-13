@@ -6,17 +6,23 @@ import axios from 'axios';
 const SummaryCard = () => {
   const { user } = useAuth();
   const [leaveBalance, setLeaveBalance] = useState(null);
-  const [pendingLeavesCount, setPendingLeavesCount] = useState(null);
+  const [approvedLeavesCount, setApprovedLeavesCount] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchLeaveSummary = async () => {
       try {
         const response = await axios.get(`/api/employee/leave-summary/${user._id}`);
-        setLeaveBalance(response.data.totalLeaveBalance);
-        setPendingLeavesCount(response.data.pendingLeavesCount);
+        if (response.data.success) {
+          setLeaveBalance(response.data.totalLeaveBalance);
+          setApprovedLeavesCount(response.data.approvedLeavesCount);
+        } else {
+          setError(response.data.message || 'Failed to fetch leave summary');
+        }
       } catch (error) {
         console.error('Error fetching leave summary:', error);
+        setError('Server error while fetching leave summary');
       } finally {
         setLoading(false);
       }
@@ -60,13 +66,19 @@ const SummaryCard = () => {
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mt-1 truncate">
               {loading ? (
                 'Loading leave balance...'
-              ) : pendingLeavesCount !== null ? (
-                `Leave Days Remaining: ${pendingLeavesCount} / 5`
+              ) : error ? (
+                error
+              ) : leaveBalance !== null ? (
+                `Current Leave Balance: ${leaveBalance+1} / 5`
               ) : (
                 'Unable to fetch leave balance'
               )}
             </p>
-            
+            {approvedLeavesCount !== null && (
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 mt-1 truncate">
+                Approved Leaves: {approvedLeavesCount}
+              </p>
+            )}
           </div>
         </div>
       </div>

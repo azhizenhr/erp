@@ -24,8 +24,6 @@ const Attendance = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      // console.log('Success:', response.data.success);
-      // console.log('Attendance data:', response.data.attendance);
 
       if (response.data.success) {
         let sno = 1;
@@ -36,7 +34,7 @@ const Attendance = () => {
             sno: sno++,
             department: att.employeeId.department?.dep_name || 'N/A',
             name: att.employeeId.userId?.name || 'N/A',
-            designation:att.employeeId.designation,
+            designation: att.employeeId.designation,
             action: (
               <AttendanceHelper
                 status={att.status}
@@ -45,7 +43,6 @@ const Attendance = () => {
               />
             ),
           }));
-        // console.log('Transformed data:', data);
         setAttendance(data);
         setFilteredAttendance(data);
       }
@@ -67,8 +64,6 @@ const Attendance = () => {
     const searchTerm = e.target.value.toLowerCase();
     setSearch(searchTerm);
     const records = attendance.filter((emp) =>
-      (emp.employeeId || '').toLowerCase().includes(searchTerm) ||
-      (emp.department || '').toLowerCase().includes(searchTerm) ||
       (emp.name || '').toLowerCase().includes(searchTerm)
     );
     setFilteredAttendance(records);
@@ -101,11 +96,11 @@ const Attendance = () => {
             <div className="flex justify-between items-center flex-nowrap space-x-4 sm:space-x-0">
               <input
                 type="text"
-                placeholder="Search By Dep Name"
+                placeholder="Search By Employee Name"
                 className="w-full sm:w-56 md:w-64 px-2 sm:px-3 md:px-4 py-1 sm:py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00B4D9] text-sm sm:text-base"
                 value={search}
                 onChange={handleFilter}
-                aria-label="Search attendance records"
+                aria-label="Search attendance records by employee name"
               />
               <p className="text-sm sm:text-base whitespace-nowrap">
                 Mark Employee for{' '}

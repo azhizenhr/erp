@@ -11,25 +11,7 @@ const AddLeave = () => {
   const [leaveBalance, setLeaveBalance] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch leave balance on mount
-  useEffect(() => {
-    const fetchLeaveBalance = async () => {
-      try {
-        const response = await axios.get('/api/leave/balance', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.data.success) {
-          setLeaveBalance(response.data.balance);
-        }
-      } catch (error) {
-        console.error('Error fetching leave balance:', error);
-        alert('Failed to fetch leave balance. Please try again.');
-      }
-    };
-    fetchLeaveBalance();
-  }, []);
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;

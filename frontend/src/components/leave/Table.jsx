@@ -18,16 +18,17 @@ const Table = () => {
       if (response.data.success) {
         let sno = 1;
         const data = response.data.leaves.map((leave) => {
-          // Calculate total days (inclusive of start and end dates)
-          const start = new Date(leave.startDate);
-          const end = new Date(leave.endDate);
+          // Normalize dates to remove time components
+          const start = new Date(new Date(leave.startDate).setHours(0, 0, 0, 0));
+          const end = new Date(new Date(leave.endDate).setHours(0, 0, 0, 0));
           if (isNaN(start) || isNaN(end)) {
             return null; // Skip invalid dates
           }
-          const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-
+          // Calculate total days: same or next day counts as 1 day
+          const timeDiff = end - start;
+          const totalDays = (timeDiff <= 1000 * 60 * 60 * 24) ? 1 : Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
           // Calculate extra days beyond 5
-          const extraDays = totalDays > 5 ? totalDays - 5 : 0;
+          const extraDays = totalDays > 5 ? totalDays - 5+1 : 0;
 
           return {
             _id: leave._id,
@@ -49,8 +50,11 @@ const Table = () => {
         setFilteredLeaves(validData);
       }
     } catch (error) {
-      if (error.response && error.response.data.success) {
-        alert(error.response.data.error);
+      console.error('Error fetching leaves:', error);
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error || 'Failed to fetch leaves');
+      } else {
+        alert('Server error while fetching leaves');
       }
     }
   };
@@ -60,8 +64,9 @@ const Table = () => {
   }, []);
 
   const filterByInput = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
     const data = leaves.filter((leave) =>
-      leave.employeeId.toLowerCase().includes(e.target.value.toLowerCase())
+      (leave.name || '').toLowerCase().includes(searchTerm)
     );
     setFilteredLeaves(data);
   };
@@ -83,9 +88,10 @@ const Table = () => {
           <div className="flex justify-between items-center">
             <input
               type="text"
-              placeholder="Search By Name"
+              placeholder="Search By Employee Name"
               className="w-full sm:w-56 md:w-64 px-2 sm:px-3 md:px-4 py-1 sm:py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00B4D9] text-sm sm:text-base"
               onChange={filterByInput}
+              aria-label="Search leaves by employee name"
             />
             <div className="space-x-3">
               <button

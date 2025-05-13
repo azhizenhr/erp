@@ -5,21 +5,34 @@ import mongoose from "mongoose";
 
 export const addLeave = async (req, res) => {
     try {
-        const { userId, startDate, endDate, reason,leaveType } = req.body;
+        const { userId, startDate, endDate, reason, leaveType, status } = req.body;
         
         const employee = await Employee.findOne({ userId });
-        console.log(employee);
+        // console.log(employee);
         
         if (!employee) {
             return res.status(404).json({ success: false, error: "Employee not found" });
         }
+
+        // Normalize dates to remove time components
+        const start = new Date(new Date(startDate).setHours(0, 0, 0, 0));
+        const end = new Date(new Date(endDate).setHours(0, 0, 0, 0));
+        // Ensure dates are valid
+        if (isNaN(start) || isNaN(end) || start > end) {
+            return res.status(400).json({ success: false, error: "Invalid date range" });
+        }
+
+        // Calculate leave days: same or next day counts as 1 day
+        const timeDiff = end - start;
+        const leaveDays = (timeDiff <= 1000 * 60 * 60 * 24) ? 1 : Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
         const newLeave = new Leave({
             employeeId: employee._id,
             startDate,
             endDate,
             reason,
-            leaveType
+            leaveType,
+            status: status || "Pending" // Default to "Pending" if status not provided
         });
 
         await newLeave.save();
@@ -34,6 +47,11 @@ export const updateLeave = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, error: "Invalid leave ID" });
+        }
+
         // Find the leave to get details
         const leave = await Leave.findById(id);
         if (!leave) {
@@ -45,10 +63,18 @@ export const updateLeave = async (req, res) => {
             const currentDate = new Date();
             const month = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
 
-            // Calculate number of leave days
-            const start = new Date(leave.startDate);
-            const end = new Date(leave.endDate);
-            const leaveDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            // Normalize dates to remove time components
+            const start = new Date(new Date(leave.startDate).setHours(0, 0, 0, 0));
+            const end = new Date(new Date(leave.endDate).setHours(0, 0, 0, 0));
+            // Ensure dates are valid
+            if (isNaN(start) || isNaN(end) || start > end) {
+                return res.status(400).json({ success: false, error: "Invalid date range" });
+            }
+
+            // Calculate leave days: same or next day counts as 1 day
+            const timeDiff = end - start;
+            const leaveDays = (timeDiff <= 1000 * 60 * 60 * 24) ? 1 : Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            // console.log(`Updating leave ${id}: Start=${start}, End=${end}, LeaveDays=${leaveDays}`);
 
             // Find the employee
             const employee = await Employee.findById(leave.employeeId);
@@ -90,6 +116,7 @@ export const updateLeave = async (req, res) => {
         return res.status(500).json({ success: false, error: "leave update server error" });
     }
 };
+
 
 export const getLeave = async (req, res) => {
   
@@ -167,7 +194,7 @@ export const getLeaves = async (req, res) => {
             };
         });
 
-        console.log("Fetched leaves with balances");
+        // console.log("Fetched leaves with balances");
         return res.status(200).json({ success: true, leaves: enhancedLeaves });
     } catch (error) {
         console.log("error in getLeaves");
@@ -218,7 +245,7 @@ export const getLeaveDetail = async (req, res) => {
         employeeId: enhancedEmployee,
       };
   
-      console.log("Fetched leave detail with balance");
+    //   console.log("Fetched leave detail with balance");
       return res.status(200).json({ success: true, leave: enhancedLeave });
     } catch (error) {
       console.error("Error in getLeaveDetail:", error.message);
@@ -228,10 +255,10 @@ export const getLeaveDetail = async (req, res) => {
 
   export const leaveBalance=async (req, res) => {
     try {
-      const userId = req.user._id; // Assuming middleware sets req.user
+      const userId = req.user._id; 
       const employee = await Employee.findOne({ userId });
-      const balance = employee.leaveBalance || 0; // Adjust based on your model
-      res.json({ success: true, balance });
+      const balance = employee.leaveBalance || 0; 
+      return res.json({ success: true, balance });
     } catch (error) {
       res.status(500).json({ success: false, error: 'Server error' });
     }
