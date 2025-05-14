@@ -71,9 +71,9 @@ export const updateLeave = async (req, res) => {
                 return res.status(400).json({ success: false, error: "Invalid date range" });
             }
 
-            // Calculate leave days: same or next day counts as 1 day
+            // Calculate leave days: count each date inclusively
             const timeDiff = end - start;
-            const leaveDays = (timeDiff <= 1000 * 60 * 60 * 24) ? 1 : Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            const leaveDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
             // console.log(`Updating leave ${id}: Start=${start}, End=${end}, LeaveDays=${leaveDays}`);
 
             // Find the employee
@@ -116,7 +116,6 @@ export const updateLeave = async (req, res) => {
         return res.status(500).json({ success: false, error: "leave update server error" });
     }
 };
-
 
 export const getLeave = async (req, res) => {
   

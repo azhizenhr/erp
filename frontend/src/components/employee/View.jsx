@@ -59,30 +59,30 @@ const View = () => {
                             )}
                         </div>
                         <div className="space-y-2 sm:space-y-3 md:space-y-5">
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Name:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[100px] shrink-0">Name:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.userId.name}</p>
                             </div>
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Employee ID:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[120px] shrink-0">Employee ID:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.employeeId}</p>
                             </div>
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Date of Birth:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[120px] shrink-0">Date of Birth:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">
                                     {new Date(employee.dob).toLocaleDateString()}
                                 </p>
                             </div>
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Gender:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[100px] shrink-0">Gender:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.gender}</p>
                             </div>
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Team:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[100px] shrink-0">Team:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.department.dep_name}</p>
                             </div>
-                            <div className="flex flex-col sm:flex-row sm:space-x-2 md:space-x-3">
-                                <p className="text-sm sm:text-base md:text-lg font-bold shrink-0">Marital Status:</p>
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
+                                <p className="text-sm sm:text-base md:text-lg font-bold w-[120px] shrink-0 whitespace-nowrap">Marital Status:</p>
                                 <p className="text-sm sm:text-base font-medium break-words">{employee.maritalStatus}</p>
                             </div>
                         </div>

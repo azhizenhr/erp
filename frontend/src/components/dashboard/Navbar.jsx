@@ -18,9 +18,9 @@ const Navbar = () => {
      
         <div className='flex items-center w-1/3 space-x-2'>
           <img 
-            src="./azhizen.jpeg" 
+            src="./azhizenblack.png" 
             alt="Profile"
-            className='w-1/3 h-10  object-cover'
+            className='w-full h-10  object-cover'
           />
           <button 
             className='md:hidden text-white p-2'
