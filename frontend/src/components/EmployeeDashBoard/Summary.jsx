@@ -69,7 +69,7 @@ const SummaryCard = () => {
               ) : error ? (
                 error
               ) : leaveBalance !== null ? (
-                `Current Leave Balance: ${leaveBalance+1} / 5`
+                `Current Leave Balance: ${leaveBalance} / 5`
               ) : (
                 'Unable to fetch leave balance'
               )}

@@ -1,11 +1,12 @@
 import User from "../models/User.js"
 import Employee from "../models/Employee.js"
 import bcrypt from "bcrypt";
-import multer, { diskStorage } from "multer";
-import path from "path";
 import Department from "../models/Department.js";
+import mongoose from "mongoose";
 import Leave from "../models/Leave.js";
 import cloudinary from "../config/cloudinary.js";
+import Salary from "../models/Salary.js";
+import Attendance from "../models/Attendance.js";
 export const addEmployee = async (req, res) => {
     try {
         const {
@@ -178,12 +179,17 @@ export const getLeaveSummary = async (req, res) => {
     }
 };
 export const deleteEmployee = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
         const { id } = req.params;
 
         // Find the employee and populate userId
-        const employee = await Employee.findById(id).populate('userId');
+        const employee = await Employee.findById(id).populate('userId').session(session);
         if (!employee) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(404).json({ success: false, error: 'Employee not found' });
         }
 
@@ -194,19 +200,31 @@ export const deleteEmployee = async (req, res) => {
                 await cloudinary.uploader.destroy(`EmployeeProfiles/${publicId}`);
             } catch (cloudinaryError) {
                 console.error('Error deleting Cloudinary image:', cloudinaryError);
-                // Continue with deletion even if Cloudinary fails
+                // Log but continue with deletion
             }
         }
 
-        // Delete all leave records associated with the employee
-        await Leave.deleteMany({ employeeId: id });
+        // Delete all related records
+        await Promise.all([
+            Leave.deleteMany({ employeeId: id }).session(session), // Delete leave records
+            Salary.deleteMany({ employeeId: id }).session(session), // Delete salary records
+            Attendance.deleteMany({ employeeId: id }).session(session), // Delete attendance records
+            User.deleteOne({ _id: employee.userId._id }).session(session), // Delete user
+            Employee.deleteOne({ _id: id }).session(session), // Delete employee
+        ]);
 
-        // Delete User and Employee documents
-        await User.deleteOne({ _id: employee.userId._id });
-        await Employee.deleteOne({ _id: id });
+        // Commit the transaction
+        await session.commitTransaction();
+        session.endSession();
 
-        return res.status(200).json({ success: true, message: 'Employee and associated leave details deleted successfully' });
+        return res.status(200).json({
+            success: true,
+            message: 'Employee and all associated records deleted successfully',
+        });
     } catch (error) {
+        // Rollback transaction on error
+        await session.abortTransaction();
+        session.endSession();
         console.error('Error deleting employee:', error);
         return res.status(500).json({ success: false, error: 'Server error deleting employee' });
     }
